@@ -4,6 +4,7 @@ import os
 
 from app.models import*
 from datetime import *
+from config import data_path
 
 from app_working.check_record_in_DB import check_coordinates_in_DB, check_flats_in_DB, \
                                             check_houses_in_DB, check_lands_in_DB
@@ -64,10 +65,8 @@ def save_land_to_DB(obj):
     check_lands_in_DB(land)
 
 def readDataFromJSON():
-    # устанавливаем путь к файлу списка объявлений
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    basedir = basedir.replace('app_working', 'process_data')
-    ads_path = os.path.join(basedir, 'AdsForDB.json')
+    # устанавливаем путь к файлу списка объявлений для записи в БД
+    ads_path = os.path.join(data_path, 'ads_for_db.json')
     try:
         dataJson = codecs.open(ads_path, 'r', 'utf-8')
     except IOError as e:
