@@ -315,6 +315,13 @@ def form_of_ychactok(title, url_obj, price, user_agents_list=None, proxy_list=No
     square += title.split(' ')[1]
     t_of_object += title.split(' ')[3]
 
+    if t_of_object == '(ИЖС)':
+        t_of_object = 'Поселений'
+    elif t_of_object == '(промназначения)':
+        t_of_object = 'Промназначения'
+    elif t_of_object == '(СНТ,':
+        t_of_object = 'Сельхозназначения'
+
     for i in range(url_obj.rfind('_')+1, len(url_obj)):
         id_obj = id_obj + url_obj[i]
 
@@ -503,8 +510,11 @@ def main_of_PA():#---------------------ГЛАВНАЯ ФУНКЦИЯ------------
                       ]
 
     proxy_list=[]
-    proxy_list_tab = open('proxy.txt').read().split('\n')
-    user_agents_list = open('useragents.txt').read().split('\n')
+    files_path = os.path.abspath(os.path.dirname(__file__))
+    proxy_path = os.path.join(files_path, 'proxy.txt')
+    proxy_list_tab = open(proxy_path).read().split('\n')
+    user_agents_path = os.path.join(files_path, 'useragents.txt')
+    user_agents_list = open(user_agents_path).read().split('\n')
     for i in proxy_list_tab:
         proxy_list.append(repSymb(i, '\t', ':'))
 
@@ -517,14 +527,14 @@ def main_of_PA():#---------------------ГЛАВНАЯ ФУНКЦИЯ------------
         msvcrt.getch()# очистка буфера клавиатуры сброс kbhit()
     # print('Press any key to Stop.')
     # print('Collection houses...')
-    # dict_dom = get_data_dict(url_list["url_list_dom"], user_agents_list, proxy_list)
-    # if msvcrt.kbhit():
-    #     msvcrt.getch()# очистка буфера клавиатуры сброс kbhit()
+    dict_dom = get_data_dict(url_list["url_list_dom"], user_agents_list, proxy_list)
+    if msvcrt.kbhit():
+        msvcrt.getch()# очистка буфера клавиатуры сброс kbhit()
     # print('Press any key to Stop.')
     # print('Collection Land plots...')
-    # dict_ychas = get_data_dict(url_list["url_list_ychas"], user_agents_list, proxy_list)
-    # if msvcrt.kbhit():
-    #     msvcrt.getch()# очистка буфера клавиатуры сброс kbhit()
+    dict_ychas = get_data_dict(url_list["url_list_ychas"], user_agents_list, proxy_list)
+    if msvcrt.kbhit():
+        msvcrt.getch()# очистка буфера клавиатуры сброс kbhit()
     # print('Collection is finished.')
 
     ADS = [] #список с объектами
@@ -538,21 +548,21 @@ def main_of_PA():#---------------------ГЛАВНАЯ ФУНКЦИЯ------------
         if msvcrt.kbhit():
             break
 
-    # for i in range(0, len(dict_dom["title"])):
-    #     obj = form_of_dom(dict_dom["title"][i], dict_dom["url_s"][i], dict_dom["price"][i], user_agents_list, proxy_list)
-    #     if obj:
-    #         ADS.append(obj)
-    #     print('Progress 2/3 >>%1.2f%%' % (i / len(dict_dom["title"]) * 100))
-    #     if msvcrt.kbhit():
-    #         break
-    #
-    # for i in range(0, len(dict_ychas["title"])):
-    #     obj = form_of_ychactok(dict_ychas["title"][i], dict_ychas["url_s"][i], dict_ychas["price"][i], user_agents_list, proxy_list)
-    #     if obj:
-    #         ADS.append(obj)
-    #     print('Progress 3/3 >>%1.2f%%' % (i / len(dict_ychas["title"]) * 100))
-    #     if msvcrt.kbhit():
-    #         break
+    for i in range(0, len(dict_dom["title"])):
+        obj = form_of_dom(dict_dom["title"][i], dict_dom["url_s"][i], dict_dom["price"][i], user_agents_list, proxy_list)
+        if obj:
+            ADS.append(obj)
+        print('Progress 2/3 >>%1.2f%%' % (i / len(dict_dom["title"]) * 100))
+        if msvcrt.kbhit():
+            break
+
+    for i in range(0, len(dict_ychas["title"])):
+        obj = form_of_ychactok(dict_ychas["title"][i], dict_ychas["url_s"][i], dict_ychas["price"][i], user_agents_list, proxy_list)
+        if obj:
+            ADS.append(obj)
+        print('Progress 3/3 >>%1.2f%%' % (i / len(dict_ychas["title"]) * 100))
+        if msvcrt.kbhit():
+            break
 
     print('Parsing is finished.')
 

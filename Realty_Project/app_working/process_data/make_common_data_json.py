@@ -6,14 +6,14 @@ import shutil
 from app_working.process_data.get_coordinates import get_coordinates
 from config import data_path
 from app import db
-from app.models import Material, TypeHouse, TypeLand
+from app.models import Dictionary
 
 commonArray = []
 processedObj = {'Processed realty objects': []}
 
 #поиск id записи по содержимому
-def findId(temp, table):
-    idFinder = table.query.filter_by(name=temp)
+def findId(temp):
+    idFinder = Dictionary.query.filter_by(name=temp)
     result = db.session.execute(idFinder)
     row = result.fetchone()
     return row[0]
@@ -29,7 +29,7 @@ def finder_coordinates_flat(obj):
         else:
             typeObject = 2
         # определение материала дома
-        houseMaterial = findId(obj['House material'], Material)
+        houseMaterial = findId(obj['House material'])
         # определение числа комнат
         numRooms = obj['Number of rooms']
         numRooms = int(numRooms)
@@ -84,9 +84,9 @@ def finder_coordinates_house(obj):
 
     if (objCoordinates.longAddress != ""):
         address = objCoordinates.longAddress
-        typeObject = findId(obj['Type of object'], TypeHouse)
+        typeObject = findId(obj['Type of object'])
         # определение материала дома
-        houseMaterial = findId(obj['House material'], Material)
+        houseMaterial = findId(obj['House material'])
         # определение площади дома
         houseSquare = obj['House square']
         # определение площади участка
@@ -133,7 +133,7 @@ def finder_coordinates_land(obj):
 
     if (objCoordinates.longAddress != ""):
         address = objCoordinates.longAddress
-        typeObject = findId(obj['Type of object'], TypeLand)
+        typeObject = findId(obj['Type of object'])
         # определение площади участка
         landSquare = obj['Land square']
         # определение цены объекта

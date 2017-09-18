@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="RealtyDB" uuid="54be1f7f-4db5-44ea-9120-438d1c473434">
+    <data-source source="LOCAL" name="RealtyDB" uuid="0bebf4b7-3d90-4cbc-8ef7-8bf3a40c1d36">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
